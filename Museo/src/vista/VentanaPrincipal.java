@@ -1,4 +1,4 @@
-package modelo;
+package vista;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JSpinner;
 import javax.swing.JMenuItem;
 
-public class Modelo extends JFrame {
+public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
 
@@ -26,7 +26,7 @@ public class Modelo extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Modelo frame = new Modelo();
+					VentanaPrincipal frame = new VentanaPrincipal();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,15 +38,15 @@ public class Modelo extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Modelo() {
+	public VentanaPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 802, 453);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Menu");
-		menuBar.add(mnNewMenu);
+		JMenu mnPrincipal = new JMenu("Menu");
+		menuBar.add(mnPrincipal);
 		
 		JButton btnConsultar = new JButton("Consultar");
 		btnConsultar.addActionListener(new ActionListener() {
@@ -56,15 +56,15 @@ public class Modelo extends JFrame {
 			}
 		});
 		
-		JMenu mnNewMenu_1 = new JMenu("New menu");
-		mnNewMenu.add(mnNewMenu_1);
+		JMenu mnAnanirVar = new JMenu("A\u00F1adir");
+		mnPrincipal.add(mnAnanirVar);
 		
 		JButton btnAnadirAutor = new JButton("A\u00F1adir Autor");
-		mnNewMenu_1.add(btnAnadirAutor);
+		mnAnanirVar.add(btnAnadirAutor);
 		
 		JButton btnNewButton_1 = new JButton("A\u00F1adir Obra");
-		mnNewMenu_1.add(btnNewButton_1);
-		mnNewMenu.add(btnConsultar);
+		mnAnanirVar.add(btnNewButton_1);
+		mnPrincipal.add(btnConsultar);
 		
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
@@ -73,7 +73,7 @@ public class Modelo extends JFrame {
 				c.show(contentPane, "t3");
 			}
 		});
-		mnNewMenu.add(btnSalir);
+		mnPrincipal.add(btnSalir);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
