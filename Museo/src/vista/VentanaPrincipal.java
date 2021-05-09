@@ -14,10 +14,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSpinner;
 import javax.swing.JMenuItem;
+import javax.swing.JLabel;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -94,6 +98,30 @@ public class VentanaPrincipal extends JFrame {
 		JPanel pConsultar = new JPanel();
 		contentPane.add(pConsultar, "t2");
 		pConsultar.setLayout(null);
+		
+		JLabel lblTituloConsultar = new JLabel("Seleccione un par\u00E1metro de b\u00FAsqueda para la consulta");
+		lblTituloConsultar.setBounds(10, 11, 290, 14);
+		pConsultar.add(lblTituloConsultar);
+		
+		JRadioButton rdbtnTituloObra = new JRadioButton("T\u00EDtulo de la obra");
+		buttonGroup.add(rdbtnTituloObra);
+		rdbtnTituloObra.setBounds(10, 32, 109, 23);
+		pConsultar.add(rdbtnTituloObra);
+		
+		JRadioButton rdbtnTipoObra = new JRadioButton("Tipo de obra");
+		buttonGroup.add(rdbtnTipoObra);
+		rdbtnTipoObra.setBounds(121, 32, 109, 23);
+		pConsultar.add(rdbtnTipoObra);
+		
+		JRadioButton rdbtnFecha = new JRadioButton("Fecha");
+		buttonGroup.add(rdbtnFecha);
+		rdbtnFecha.setBounds(232, 32, 109, 23);
+		pConsultar.add(rdbtnFecha);
+		
+		JRadioButton rdbtnUbicacion = new JRadioButton("Ubicaci\u00F3n de la obra");
+		buttonGroup.add(rdbtnUbicacion);
+		rdbtnUbicacion.setBounds(343, 32, 135, 23);
+		pConsultar.add(rdbtnUbicacion);
 		
 		JPanel pSalir = new JPanel();
 		contentPane.add(pSalir, "t3");
