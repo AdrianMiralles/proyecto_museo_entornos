@@ -7,21 +7,37 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import controlador.BaseDeDatos;
+import modelo.Obra;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import javax.swing.JSpinner;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private ArrayList<Obra> listadoObras = new ArrayList<Obra>();
+	private BaseDeDatos bbdd = new BaseDeDatos();
+	private JTextField txtBuscar;
+	private JTable tablaConsultas;
+	DefaultTableModel modeloTabla = new DefaultTableModel();
 
 	/**
 	 * Launch the application.
@@ -122,6 +138,52 @@ public class VentanaPrincipal extends JFrame {
 		buttonGroup.add(rdbtnUbicacion);
 		rdbtnUbicacion.setBounds(343, 32, 135, 23);
 		pConsultar.add(rdbtnUbicacion);
+		
+		txtBuscar = new JTextField();
+		txtBuscar.setBounds(10, 62, 150, 20);
+		pConsultar.add(txtBuscar);
+		txtBuscar.setColumns(10);
+		
+		JButton btnTitulo = new JButton("Consultar");
+		btnTitulo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (txtBuscar.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Compruebe que la caja de texto no esté vacía.", "Alerta",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					
+					listadoObras = bbdd.consulta("titulo", txtBuscar.getText());// llamo al método
+																								// pasándole un
+																								// parámetro con el
+																								// texto
+					// específico y guardo el arraylist que devuelve para
+					// despues volcarlo en un JTable
+
+					modeloTabla.setColumnIdentifiers(
+							new Object[] { "Título", "Tipo", "Fecha", "Ubicación" });
+					modeloTabla.setRowCount(0);
+					tablaConsultas.setModel(modeloTabla);
+
+					Iterator<Obra> iterador = listadoObras.iterator();
+					while (iterador.hasNext()) {
+						Obra elemento = iterador.next();
+						modeloTabla.addRow(new Object[] { // carga la tabla con los elementos indicados
+								elemento.getTitulo(), elemento.getTipo(), elemento.getFecha(),
+								elemento.getLugar() });
+					}
+				}
+			}
+		});
+		btnTitulo.setBounds(170, 61, 89, 23);
+		pConsultar.add(btnTitulo);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 93, 756, 278);
+		pConsultar.add(scrollPane);
+		
+		tablaConsultas = new JTable();
+		scrollPane.setColumnHeaderView(tablaConsultas);
+		scrollPane.setViewportView(tablaConsultas);
 		
 		JPanel pSalir = new JPanel();
 		contentPane.add(pSalir, "t3");
