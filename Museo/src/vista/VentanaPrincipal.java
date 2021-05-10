@@ -39,6 +39,13 @@ public class VentanaPrincipal extends JFrame {
 	private JTable tablaConsultas;
 	DefaultTableModel modeloTabla = new DefaultTableModel();
 	private JButton btnTitulo;
+	private JTextField txtfIdObra;
+	private JTextField textFAutor;
+	private JTextField textFTitulo;
+	private JTextField textFTipo;
+	private JTextField textFFecha;
+	private JTextField textFLugar;
+	private JTextField textFNombreArtista;
 
 	/**
 	 * Launch the application.
@@ -73,7 +80,7 @@ public class VentanaPrincipal extends JFrame {
 		btnConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout c=(CardLayout)(contentPane.getLayout());
-				c.show(contentPane, "t2");
+				c.show(contentPane, "t3");
 			}
 		});
 		
@@ -81,17 +88,33 @@ public class VentanaPrincipal extends JFrame {
 		mnPrincipal.add(mnAnanirVar);
 		
 		JButton btnAnadirAutor = new JButton("A\u00F1adir Autor");
+		btnAnadirAutor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout c=(CardLayout)(contentPane.getLayout());
+				c.show(contentPane, "t2");
+			}
+		});
 		mnAnanirVar.add(btnAnadirAutor);
-		
-		JButton btnNewButton_1 = new JButton("A\u00F1adir Obra");
-		mnAnanirVar.add(btnNewButton_1);
+		btnAnadirAutor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout c=(CardLayout)(contentPane.getLayout());
+				c.show(contentPane, "t2");
+			}
+		});
+		JButton btnAnadirObra = new JButton("A\u00F1adir Obra");
+		btnAnadirObra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout c=(CardLayout)(contentPane.getLayout());
+				c.show(contentPane, "t1");
+			}
+		});
+		mnAnanirVar.add(btnAnadirObra);
 		mnPrincipal.add(btnConsultar);
 		
 		JButton btnSalir = new JButton("Salir");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CardLayout c=(CardLayout)(contentPane.getLayout());
-				c.show(contentPane, "t3");
+				
 			}
 		});
 		mnPrincipal.add(btnSalir);
@@ -100,20 +123,88 @@ public class VentanaPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
 		
-		JPanel pAnadir = new JPanel();
-		contentPane.add(pAnadir, "t1");
-		pAnadir.setLayout(null);
+		JPanel pAnadirObra = new JPanel();
+		contentPane.add(pAnadirObra, "t1");
+		pAnadirObra.setLayout(null);
 		
 		JButton btnLimpiar = new JButton("A\u00F1adir");
 		btnLimpiar.setBounds(687, 358, 89, 23);
-		pAnadir.add(btnLimpiar);
+		pAnadirObra.add(btnLimpiar);
 		
 		JButton btnAnadir = new JButton("Limpiar ");
+		btnAnadir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtfIdObra.setText("");
+				textFAutor.setText("");
+				textFTitulo.setText("");
+				textFTipo.setText("");
+				textFFecha.setText("");
+				textFLugar.setText("");
+			}
+		});
 		btnAnadir.setBounds(0, 358, 89, 23);
-		pAnadir.add(btnAnadir);
+		pAnadirObra.add(btnAnadir);
+		
+		JLabel lblNewLabel = new JLabel("Introduzca los datos a continuaci\u00F3n:");
+		lblNewLabel.setBounds(10, 11, 181, 14);
+		pAnadirObra.add(lblNewLabel);
+		
+		JLabel lblIdObra = new JLabel("ID Obra");
+		lblIdObra.setBounds(10, 63, 46, 14);
+		pAnadirObra.add(lblIdObra);
+		
+		txtfIdObra = new JTextField();
+		txtfIdObra.setBounds(10, 78, 86, 20);
+		pAnadirObra.add(txtfIdObra);
+		txtfIdObra.setColumns(10);
+		
+		JLabel lblIdAutor = new JLabel("ID Autor");
+		lblIdAutor.setBounds(10, 109, 46, 14);
+		pAnadirObra.add(lblIdAutor);
+		
+		textFAutor = new JTextField();
+		textFAutor.setBounds(10, 123, 86, 20);
+		pAnadirObra.add(textFAutor);
+		textFAutor.setColumns(10);
+		
+		JLabel lblTitulo = new JLabel("Titulo");
+		lblTitulo.setBounds(10, 154, 46, 14);
+		pAnadirObra.add(lblTitulo);
+		
+		textFTitulo = new JTextField();
+		textFTitulo.setBounds(10, 166, 86, 20);
+		pAnadirObra.add(textFTitulo);
+		textFTitulo.setColumns(10);
+		
+		JLabel lblTipo = new JLabel("Tipo");
+		lblTipo.setBounds(10, 197, 46, 14);
+		pAnadirObra.add(lblTipo);
+		
+		textFTipo = new JTextField();
+		textFTipo.setBounds(10, 211, 86, 20);
+		pAnadirObra.add(textFTipo);
+		textFTipo.setColumns(10);
+		
+		JLabel lblFecha = new JLabel("Fecha");
+		lblFecha.setBounds(10, 242, 46, 14);
+		pAnadirObra.add(lblFecha);
+		
+		textFFecha = new JTextField();
+		textFFecha.setBounds(10, 256, 86, 20);
+		pAnadirObra.add(textFFecha);
+		textFFecha.setColumns(10);
+		
+		JLabel lblLugar = new JLabel("Lugar");
+		lblLugar.setBounds(10, 287, 46, 14);
+		pAnadirObra.add(lblLugar);
+		
+		textFLugar = new JTextField();
+		textFLugar.setBounds(10, 302, 86, 20);
+		pAnadirObra.add(textFLugar);
+		textFLugar.setColumns(10);
 		
 		JPanel pConsultar = new JPanel();
-		contentPane.add(pConsultar, "t2");
+		contentPane.add(pConsultar, "t3");
 		pConsultar.setLayout(null);
 		
 		JLabel lblTituloConsultar = new JLabel("Seleccione un par\u00E1metro de b\u00FAsqueda para la consulta");
@@ -186,8 +277,29 @@ public class VentanaPrincipal extends JFrame {
 		scrollPane.setColumnHeaderView(tablaConsultas);
 		scrollPane.setViewportView(tablaConsultas);
 		
-		JPanel pSalir = new JPanel();
-		contentPane.add(pSalir, "t3");
-		pSalir.setLayout(null);
+		JPanel pAnadirArtista = new JPanel();
+		pAnadirArtista.setLayout(null);
+		contentPane.add(pAnadirArtista, "t2");
+		
+		JButton btnLimpiar_1 = new JButton("A\u00F1adir");
+		btnLimpiar_1.setBounds(687, 358, 89, 23);
+		pAnadirArtista.add(btnLimpiar_1);
+		
+		JButton btnAnadir_1 = new JButton("Limpiar ");
+		btnAnadir_1.setBounds(0, 358, 89, 23);
+		pAnadirArtista.add(btnAnadir_1);
+		
+		JLabel lblIntro = new JLabel("Introduzca los datos a continuaci\u00F3n:");
+		lblIntro.setBounds(10, 11, 181, 14);
+		pAnadirArtista.add(lblIntro);
+		
+		JLabel lblNombre = new JLabel("Nombre artista");
+		lblNombre.setBounds(10, 73, 71, 14);
+		pAnadirArtista.add(lblNombre);
+		
+		textFNombreArtista = new JTextField();
+		textFNombreArtista.setBounds(10, 86, 86, 20);
+		pAnadirArtista.add(textFNombreArtista);
+		textFNombreArtista.setColumns(10);
 	}
 }
