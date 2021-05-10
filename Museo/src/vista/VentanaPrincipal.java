@@ -38,6 +38,7 @@ public class VentanaPrincipal extends JFrame {
 	private JTextField txtBuscar;
 	private JTable tablaConsultas;
 	DefaultTableModel modeloTabla = new DefaultTableModel();
+	private JButton btnTitulo;
 
 	/**
 	 * Launch the application.
@@ -144,7 +145,7 @@ public class VentanaPrincipal extends JFrame {
 		pConsultar.add(txtBuscar);
 		txtBuscar.setColumns(10);
 		
-		JButton btnTitulo = new JButton("Consultar");
+		btnTitulo = new JButton("Consultar");
 		btnTitulo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (txtBuscar.getText().isEmpty()) {

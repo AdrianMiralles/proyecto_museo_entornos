@@ -17,24 +17,14 @@ public class BaseDeDatos {
 
 		try {
 			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/db_museo", "root", "");
-			/*
-			 * 
-			 * 
-			 * 
-			 * FALLO EN LA BASE DE DATOS, NO LLEGA A ENTRAR, SALTA EL CATCH
-			 * 
-			 * 
-			 * 
-			 * 
-			 * */
 			Statement consulta = conexion.createStatement();
 
-			/*
-			 * ResultSet registro = consulta.executeQuery(
-			 * "SELECT autor, obras.titulo, obras.tipo, obras.fecha, obras.lugar FROM autores, obras WHERE autores.idAutor=obras.idAutor and "
-			 * + campo + " LIKE '%" + dato + "%'");
-			 */
-			ResultSet registro = consulta.executeQuery("select * from games where " + campo + " like '%" + dato + "%'");
+			/*ResultSet registro = consulta.executeQuery(
+					"SELECT autor, obras.titulo, obras.tipo, obras.fecha, obras.lugar FROM autores, obras WHERE autores.idAutor=obras.idAutor and "
+							+ campo + " LIKE '%" + dato + "%'");*/
+
+			 ResultSet registro = consulta.executeQuery("select * from obras where " +
+			 campo + " like '%" + dato + "%'");
 			boolean siguiente = registro.next();
 			if (siguiente) {
 				while (registro.next()) {
@@ -57,6 +47,7 @@ public class BaseDeDatos {
 			}
 
 		} catch (SQLException e) {
+			System.out.println(e);
 			JOptionPane.showMessageDialog(null, "La base de datos a la que intenta acceder no está disponible",
 					"Alerta", JOptionPane.WARNING_MESSAGE);
 		}
