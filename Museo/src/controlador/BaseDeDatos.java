@@ -26,6 +26,7 @@ public class BaseDeDatos {
 			 ResultSet registro = consulta.executeQuery("select * from obras where " +
 			 campo + " like '%" + dato + "%'");
 			boolean siguiente = registro.next();
+			registro.beforeFirst();
 			if (siguiente) {
 				while (registro.next()) {
 					siguiente = true;
