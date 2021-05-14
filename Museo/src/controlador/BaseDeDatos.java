@@ -28,6 +28,7 @@ public class BaseDeDatos {
 
 			ResultSet registro = consulta.executeQuery("select * from obras where " + campo + " like '%" + dato + "%'");
 			boolean siguiente = registro.next();
+			registro.beforeFirst();
 			if (siguiente) {
 				while (registro.next()) {
 					siguiente = true;
@@ -82,5 +83,42 @@ public class BaseDeDatos {
 			e.printStackTrace();
 		}
 		return registroAutores;
+	}
+
+	public ArrayList<Autor> consultaAutores() {
+		ArrayList<Autor> listadoAutores = new ArrayList<Autor>();
+
+		try {
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/db_museo", "root", "");
+			Statement consulta = conexion.createStatement();
+
+			ResultSet registro = consulta.executeQuery("SELECT * FROM autores ORDER BY idAutor");
+			boolean siguiente = registro.next();
+			registro.beforeFirst();
+			if (siguiente) {
+				while (registro.next()) {
+					siguiente = true;
+					Autor nuevoAutor = new Autor();
+
+					int idAutor = Integer.parseInt(registro.getString("IdAutor"));
+
+					nuevoAutor.setIdAutor(idAutor);
+
+					nuevoAutor.setNombreAutor(registro.getString("autor"));
+
+
+					listadoAutores.add(nuevoAutor);
+
+				}
+				siguiente = false;
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e);
+			JOptionPane.showMessageDialog(null, "La base de datos a la que intenta acceder no está disponible",
+					"Alerta", JOptionPane.WARNING_MESSAGE);
+		}
+
+		return listadoAutores;
 	}
 }
