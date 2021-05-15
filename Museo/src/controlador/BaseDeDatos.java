@@ -47,6 +47,10 @@ public class BaseDeDatos {
 
 				}
 				siguiente = false;
+			}else{// si no encuentra nada
+				JOptionPane.showMessageDialog(null, "No se ha encontrado nada por el dato introducido", "Alerta",
+						JOptionPane.ERROR_MESSAGE);
+				
 			}
 
 		} catch (SQLException e) {

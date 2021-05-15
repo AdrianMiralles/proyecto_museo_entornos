@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.BaseDeDatos;
+import controlador.Fichero;
 import modelo.Autor;
 import modelo.Obra;
 
@@ -46,6 +47,7 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnTipo;
 	private JButton btnFecha;
 	private JButton btnLugar;
+	private JButton btnGenerarXLS;
 	private JTextField txtTituloObra;
 	private JTextField txtTipoObra;
 	private JTextField txtLugarObra;
@@ -53,6 +55,8 @@ public class VentanaPrincipal extends JFrame {
 	private JComboBox cmbAutores;
 	private JTextField txtAutoresObra;
 	private JTable table;
+	private JTextField textNombreArchivo;
+	private Fichero fichero = new Fichero();
 
 	/**
 	 * Launch the application.
@@ -203,6 +207,10 @@ public class VentanaPrincipal extends JFrame {
 				btnFecha.setVisible(false);
 				btnLugar.setVisible(false);
 				txtBuscar.setVisible(true);
+				textNombreArchivo.setVisible(false);
+				btnGenerarXLS.setVisible(false);
+				txtBuscar.setText("");
+				textNombreArchivo.setText("");
 			}
 		});
 		buttonGroup.add(rdbtnTituloObra);
@@ -217,6 +225,10 @@ public class VentanaPrincipal extends JFrame {
 				btnFecha.setVisible(false);
 				btnLugar.setVisible(false);
 				txtBuscar.setVisible(true);
+				textNombreArchivo.setVisible(false);
+				btnGenerarXLS.setVisible(false);
+				txtBuscar.setText("");
+				textNombreArchivo.setText("");
 			}
 		});
 		buttonGroup.add(rdbtnTipoObra);
@@ -231,6 +243,10 @@ public class VentanaPrincipal extends JFrame {
 				btnFecha.setVisible(true);
 				btnLugar.setVisible(false);
 				txtBuscar.setVisible(true);
+				textNombreArchivo.setVisible(false);
+				btnGenerarXLS.setVisible(false);
+				txtBuscar.setText("");
+				textNombreArchivo.setText("");
 			}
 		});
 		buttonGroup.add(rdbtnFecha);
@@ -245,6 +261,10 @@ public class VentanaPrincipal extends JFrame {
 				btnFecha.setVisible(false);
 				btnLugar.setVisible(true);
 				txtBuscar.setVisible(true);
+				textNombreArchivo.setVisible(false);
+				btnGenerarXLS.setVisible(false);
+				txtBuscar.setText("");
+				textNombreArchivo.setText("");
 			}
 		});
 		buttonGroup.add(rdbtnUbicacion);
@@ -284,10 +304,12 @@ public class VentanaPrincipal extends JFrame {
 								elemento.getIdAutor() });
 					}
 					tablaConsultas.getColumnModel().getColumn(4).setMaxWidth(80);
+					textNombreArchivo.setVisible(true);
+					btnGenerarXLS.setVisible(true);
 				}
 			}
 		});
-		btnTitulo.setBounds(170, 61, 89, 23);
+		btnTitulo.setBounds(170, 61, 120, 23);
 		pConsultar.add(btnTitulo);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -326,10 +348,12 @@ public class VentanaPrincipal extends JFrame {
 								elemento.getIdAutor() });
 					}
 					tablaConsultas.getColumnModel().getColumn(4).setMaxWidth(80);
+					textNombreArchivo.setVisible(true);
+					btnGenerarXLS.setVisible(true);
 				}
 			}
 		});
-		btnTipo.setBounds(170, 61, 89, 23);
+		btnTipo.setBounds(170, 61, 120, 23);
 		pConsultar.add(btnTipo);
 
 		btnFecha = new JButton("Consultar");
@@ -360,10 +384,12 @@ public class VentanaPrincipal extends JFrame {
 								elemento.getIdAutor() });
 					}
 					tablaConsultas.getColumnModel().getColumn(4).setMaxWidth(80);
+					textNombreArchivo.setVisible(true);
+					btnGenerarXLS.setVisible(true);
 				}
 			}
 		});
-		btnFecha.setBounds(170, 62, 89, 23);
+		btnFecha.setBounds(170, 62, 120, 23);
 		pConsultar.add(btnFecha);
 
 		btnLugar = new JButton("Consultar");
@@ -394,10 +420,12 @@ public class VentanaPrincipal extends JFrame {
 								elemento.getIdAutor() });
 					}
 					tablaConsultas.getColumnModel().getColumn(4).setMaxWidth(80);
+					textNombreArchivo.setVisible(true);
+					btnGenerarXLS.setVisible(true);
 				}
 			}
 		});
-		btnLugar.setBounds(170, 62, 89, 23);
+		btnLugar.setBounds(170, 62, 120, 23);
 		pConsultar.add(btnLugar);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -422,12 +450,33 @@ public class VentanaPrincipal extends JFrame {
 					modeloTabla_1.addRow(new Object[] { // carga la tabla con los elementos indicados
 							elemento.getIdAutor(), elemento.getNombreAutor() });
 				}
-				table.getColumnModel().getColumn(1).setMinWidth(40);
+				table.getColumnModel().getColumn(1).setMinWidth(40);// Doy tamaño a la columnas
 				table.getColumnModel().getColumn(0).setMaxWidth(80);
 			}
 		});
 		btnCargarAutores.setBounds(776, 61, 150, 23);
 		pConsultar.add(btnCargarAutores);
+
+		btnGenerarXLS = new JButton("Generar XLS");
+		btnGenerarXLS.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (textNombreArchivo.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Asegurese de dar un nombre a su archivo para generarlo",
+							"Alerta", JOptionPane.WARNING_MESSAGE);
+				} else {
+					String nombre = textNombreArchivo.getText();
+					fichero.generarXLS(listadoObras, nombre);
+				}
+				textNombreArchivo.setText("");
+			}
+		});
+		btnGenerarXLS.setBounds(646, 61, 120, 23);
+		pConsultar.add(btnGenerarXLS);
+
+		textNombreArchivo = new JTextField();
+		textNombreArchivo.setBounds(516, 62, 120, 20);
+		pConsultar.add(textNombreArchivo);
+		textNombreArchivo.setColumns(10);
 
 		JPanel pSalir = new JPanel();
 		contentPane.add(pSalir, "t3");
@@ -439,10 +488,15 @@ public class VentanaPrincipal extends JFrame {
 		btnFecha.setVisible(false);
 		btnLugar.setVisible(false);
 		txtBuscar.setVisible(false);
-
+		textNombreArchivo.setVisible(false);
+		btnGenerarXLS.setVisible(false);
 		cargandoComboAutores();
 	}
 
+	/**
+	 * Método para llamar a la base de datos y cargar un jCombobox con el registro
+	 * resultante
+	 */
 	public void cargandoComboAutores() {
 
 		ArrayList<Autor> arrRegistro;
