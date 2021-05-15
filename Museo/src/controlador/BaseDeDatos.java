@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import modelo.Autor;
 import modelo.Obra;
 
 public class BaseDeDatos {
@@ -19,14 +20,14 @@ public class BaseDeDatos {
 			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/db_museo", "root", "");
 			Statement consulta = conexion.createStatement();
 
-			/*ResultSet registro = consulta.executeQuery(
-					"SELECT autor, obras.titulo, obras.tipo, obras.fecha, obras.lugar FROM autores, obras WHERE autores.idAutor=obras.idAutor and "
-							+ campo + " LIKE '%" + dato + "%'");*/
+			/*
+			 * ResultSet registro = consulta.executeQuery(
+			 * "SELECT autor, obras.titulo, obras.tipo, obras.fecha, obras.lugar FROM autores, obras WHERE autores.idAutor=obras.idAutor and "
+			 * + campo + " LIKE '%" + dato + "%'");
+			 */
 
-			 ResultSet registro = consulta.executeQuery("select * from obras where " +
-			 campo + " like '%" + dato + "%'");
+			ResultSet registro = consulta.executeQuery("select * from obras where " + campo + " like '%" + dato + "%'");
 			boolean siguiente = registro.next();
-			registro.beforeFirst();
 			if (siguiente) {
 				while (registro.next()) {
 					siguiente = true;
@@ -54,5 +55,32 @@ public class BaseDeDatos {
 		}
 
 		return listadoObras;
+	}
+
+	public ArrayList<Autor> cargandoComboAutores() {
+
+		ArrayList<Autor> registroAutores = new ArrayList<>();
+
+		try {
+
+			Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/db_museo", "games2021",
+					"games2021");
+			Statement consulta = conexion.createStatement();// guardamos en consulta la conexión
+
+			ResultSet registro = consulta.executeQuery("SELECT DISTINCT * FROM autores ORDER BY idAutor");
+
+			while (registro.next()) {
+				Autor nuevoAutor = new Autor();
+				int idAutor = Integer.parseInt(registro.getString("idAutor"));
+				nuevoAutor.setIdAutor(idAutor);
+				nuevoAutor.setNombreAutor(registro.getString("autor"));
+				registroAutores.add(nuevoAutor);
+			}
+
+			conexion.close();// siempre cerrar conexión
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return registroAutores;
 	}
 }
