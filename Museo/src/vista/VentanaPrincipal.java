@@ -36,10 +36,12 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private ArrayList<Obra> listadoObras = new ArrayList<Obra>();
+	private ArrayList<Autor> listadoAutores = new ArrayList<Autor>();
 	private BaseDeDatos bbdd = new BaseDeDatos();
 	private JTextField txtBuscar;
 	private JTable tablaConsultas;
 	DefaultTableModel modeloTabla = new DefaultTableModel();
+	DefaultTableModel modeloTabla_1 = new DefaultTableModel();
 	private JButton btnTitulo;
 	private JButton btnTipo;
 	private JButton btnFecha;
@@ -50,6 +52,7 @@ public class VentanaPrincipal extends JFrame {
 	private JTextField txtFechaObra;
 	private JComboBox cmbAutores;
 	private JTextField txtAutoresObra;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -72,7 +75,7 @@ public class VentanaPrincipal extends JFrame {
 	 */
 	public VentanaPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 802, 453);
+		setBounds(100, 100, 1200, 453);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -268,7 +271,8 @@ public class VentanaPrincipal extends JFrame {
 					// específico y guardo el arraylist que devuelve para
 					// despues volcarlo en un JTable
 
-					modeloTabla.setColumnIdentifiers(new Object[] { "Título", "Tipo", "Fecha", "Ubicación" });
+					modeloTabla
+							.setColumnIdentifiers(new Object[] { "Título", "Tipo", "Fecha", "Ubicación", "IdAutor" });
 					modeloTabla.setRowCount(0);
 					tablaConsultas.setModel(modeloTabla);
 
@@ -276,8 +280,10 @@ public class VentanaPrincipal extends JFrame {
 					while (iterador.hasNext()) {
 						Obra elemento = iterador.next();
 						modeloTabla.addRow(new Object[] { // carga la tabla con los elementos indicados
-								elemento.getTitulo(), elemento.getTipo(), elemento.getFecha(), elemento.getLugar() });
+								elemento.getTitulo(), elemento.getTipo(), elemento.getFecha(), elemento.getLugar(),
+								elemento.getIdAutor() });
 					}
+					tablaConsultas.getColumnModel().getColumn(4).setMaxWidth(80);
 				}
 			}
 		});
@@ -307,7 +313,8 @@ public class VentanaPrincipal extends JFrame {
 					// específico y guardo el arraylist que devuelve para
 					// despues volcarlo en un JTable
 
-					modeloTabla.setColumnIdentifiers(new Object[] { "Título", "Tipo", "Fecha", "Ubicación" });
+					modeloTabla
+							.setColumnIdentifiers(new Object[] { "Título", "Tipo", "Fecha", "Ubicación", "IdAutor" });
 					modeloTabla.setRowCount(0);
 					tablaConsultas.setModel(modeloTabla);
 
@@ -315,8 +322,10 @@ public class VentanaPrincipal extends JFrame {
 					while (iterador.hasNext()) {
 						Obra elemento = iterador.next();
 						modeloTabla.addRow(new Object[] { // carga la tabla con los elementos indicados
-								elemento.getTitulo(), elemento.getTipo(), elemento.getFecha(), elemento.getLugar() });
+								elemento.getTitulo(), elemento.getTipo(), elemento.getFecha(), elemento.getLugar(),
+								elemento.getIdAutor() });
 					}
+					tablaConsultas.getColumnModel().getColumn(4).setMaxWidth(80);
 				}
 			}
 		});
@@ -338,7 +347,8 @@ public class VentanaPrincipal extends JFrame {
 					// específico y guardo el arraylist que devuelve para
 					// despues volcarlo en un JTable
 
-					modeloTabla.setColumnIdentifiers(new Object[] { "Título", "Tipo", "Fecha", "Ubicación" });
+					modeloTabla
+							.setColumnIdentifiers(new Object[] { "Título", "Tipo", "Fecha", "Ubicación", "IdAutor" });
 					modeloTabla.setRowCount(0);
 					tablaConsultas.setModel(modeloTabla);
 
@@ -346,8 +356,10 @@ public class VentanaPrincipal extends JFrame {
 					while (iterador.hasNext()) {
 						Obra elemento = iterador.next();
 						modeloTabla.addRow(new Object[] { // carga la tabla con los elementos indicados
-								elemento.getTitulo(), elemento.getTipo(), elemento.getFecha(), elemento.getLugar() });
+								elemento.getTitulo(), elemento.getTipo(), elemento.getFecha(), elemento.getLugar(),
+								elemento.getIdAutor() });
 					}
+					tablaConsultas.getColumnModel().getColumn(4).setMaxWidth(80);
 				}
 			}
 		});
@@ -369,7 +381,8 @@ public class VentanaPrincipal extends JFrame {
 					// específico y guardo el arraylist que devuelve para
 					// despues volcarlo en un JTable
 
-					modeloTabla.setColumnIdentifiers(new Object[] { "Título", "Tipo", "Fecha", "Ubicación" });
+					modeloTabla
+							.setColumnIdentifiers(new Object[] { "Título", "Tipo", "Fecha", "Ubicación", "IdAutor" });
 					modeloTabla.setRowCount(0);
 					tablaConsultas.setModel(modeloTabla);
 
@@ -377,13 +390,44 @@ public class VentanaPrincipal extends JFrame {
 					while (iterador.hasNext()) {
 						Obra elemento = iterador.next();
 						modeloTabla.addRow(new Object[] { // carga la tabla con los elementos indicados
-								elemento.getTitulo(), elemento.getTipo(), elemento.getFecha(), elemento.getLugar() });
+								elemento.getTitulo(), elemento.getTipo(), elemento.getFecha(), elemento.getLugar(),
+								elemento.getIdAutor() });
 					}
+					tablaConsultas.getColumnModel().getColumn(4).setMaxWidth(80);
 				}
 			}
 		});
 		btnLugar.setBounds(170, 62, 89, 23);
 		pConsultar.add(btnLugar);
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(776, 93, 388, 278);
+		pConsultar.add(scrollPane_1);
+
+		table = new JTable();
+		scrollPane_1.setColumnHeaderView(table);
+		scrollPane_1.setViewportView(table);
+		JButton btnCargarAutores = new JButton("Cargar Autores");
+		btnCargarAutores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				listadoAutores = bbdd.consultaAutores();
+
+				modeloTabla_1.setColumnIdentifiers(new Object[] { "idAutor", "Autores" });
+				modeloTabla_1.setRowCount(0);
+				table.setModel(modeloTabla_1);
+
+				Iterator<Autor> iterador = listadoAutores.iterator();
+				while (iterador.hasNext()) {
+					Autor elemento = iterador.next();
+					modeloTabla_1.addRow(new Object[] { // carga la tabla con los elementos indicados
+							elemento.getIdAutor(), elemento.getNombreAutor() });
+				}
+				table.getColumnModel().getColumn(1).setMinWidth(40);
+				table.getColumnModel().getColumn(0).setMaxWidth(80);
+			}
+		});
+		btnCargarAutores.setBounds(776, 61, 150, 23);
+		pConsultar.add(btnCargarAutores);
 
 		JPanel pSalir = new JPanel();
 		contentPane.add(pSalir, "t3");
@@ -395,10 +439,11 @@ public class VentanaPrincipal extends JFrame {
 		btnFecha.setVisible(false);
 		btnLugar.setVisible(false);
 		txtBuscar.setVisible(false);
-		cargandoComboPlatforms();
+
+		cargandoComboAutores();
 	}
 
-	public void cargandoComboPlatforms() {
+	public void cargandoComboAutores() {
 
 		ArrayList<Autor> arrRegistro;
 		arrRegistro = bbdd.cargandoComboAutores();
