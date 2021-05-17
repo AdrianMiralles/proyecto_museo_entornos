@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
+
 import modelo.Autor;
 import modelo.Obra;
 
@@ -52,6 +54,12 @@ public class BaseDeDatos {
 						JOptionPane.ERROR_MESSAGE);
 				
 			}
+			
+		} catch (CommunicationsException ee) {
+			System.out.println(ee);
+			JOptionPane.showMessageDialog(null,
+					"La base de datos a la que intenta acceder no está disponible,\nrevise la conexión a la base de datos.",
+					"Alerta", JOptionPane.WARNING_MESSAGE);
 
 		} catch (SQLException e) {
 			System.out.println(e);

@@ -3,6 +3,7 @@ package vista;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
+import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -27,10 +28,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -54,6 +58,8 @@ public class VentanaPrincipal extends JFrame {
 	private JTextField txtFechaObra;
 	private JComboBox cmbAutores;
 	private JTextField txtAutoresObra;
+	private JLabel lblImagen;
+	private JLabel lblImagenAutor;
 	private JTable table;
 	private JTextField textNombreArchivo;
 	private Fichero fichero = new Fichero();
@@ -79,7 +85,7 @@ public class VentanaPrincipal extends JFrame {
 	 */
 	public VentanaPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1200, 453);
+		setBounds(100, 100, 1200, 1000);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -196,7 +202,7 @@ public class VentanaPrincipal extends JFrame {
 
 		JLabel lblTituloConsultar = new JLabel(
 				"Seleccione un par\u00E1metro de b\u00FAsqueda para la consulta y escriba su consulta");
-		lblTituloConsultar.setBounds(10, 11, 415, 14);
+		lblTituloConsultar.setBounds(10, 11, 465, 14);
 		pConsultar.add(lblTituloConsultar);
 
 		JRadioButton rdbtnTituloObra = new JRadioButton("T\u00EDtulo de la obra");
@@ -317,6 +323,25 @@ public class VentanaPrincipal extends JFrame {
 		pConsultar.add(scrollPane);
 
 		tablaConsultas = new JTable();
+		tablaConsultas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (e.getClickCount() == 1) {// configuro un mousePressed y le indico que escriba en el txt el contenido
+					// de la fila 0 donde hacemos clic
+					ImageIcon icon = new ImageIcon("imagenes\\"
+							+ tablaConsultas.getValueAt(tablaConsultas.getSelectedRow(), 0).toString() + ".jpg");
+					Image conversion = icon.getImage();// recojo la imagen con icon, la guardo en conversion de manera
+														// que podré modificar sus parámetros de tamaño y finalmente
+														// asigno el tamaño a una imagenIcon y creo un objeto para
+														// guardar la imagen completa modificada
+					Image tamanio = conversion.getScaledInstance(756, 536, Image.SCALE_SMOOTH);
+					ImageIcon fin = new ImageIcon(tamanio);
+					lblImagen.setIcon(fin);
+					lblImagen.setVisible(true);
+				}
+
+			}
+		});
 		scrollPane.setColumnHeaderView(tablaConsultas);
 		scrollPane.setViewportView(tablaConsultas);
 
@@ -433,6 +458,24 @@ public class VentanaPrincipal extends JFrame {
 		pConsultar.add(scrollPane_1);
 
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (e.getClickCount() == 1) {// configuro un mousePressed y le indico que escriba en el txt el contenido
+					// de la fila 0 donde hacemos clic
+					ImageIcon icon = new ImageIcon(
+							"imagenes\\" + table.getValueAt(table.getSelectedRow(), 0).toString() + ".jpg");
+					Image conversion = icon.getImage();// recojo la imagen con icon, la guardo en conversion de manera
+														// que podré modificar sus parámetros de tamaño y finalmente
+														// asigno el tamaño a una imagenIcon y creo un objeto para
+														// guardar la imagen completa modificada
+					Image tamanio = conversion.getScaledInstance(382, 388, Image.SCALE_SMOOTH);
+					ImageIcon fin = new ImageIcon(tamanio);
+					lblImagenAutor.setIcon(fin);
+					lblImagenAutor.setVisible(true);
+				}
+			}
+		});
 		scrollPane_1.setColumnHeaderView(table);
 		scrollPane_1.setViewportView(table);
 		JButton btnCargarAutores = new JButton("Cargar Autores");
@@ -478,6 +521,19 @@ public class VentanaPrincipal extends JFrame {
 		pConsultar.add(textNombreArchivo);
 		textNombreArchivo.setColumns(10);
 
+		lblImagen = new JLabel(" ");
+		lblImagen.setBounds(10, 382, 756, 536);
+		lblImagen.setIcon(new ImageIcon("imagenes\\no-disponible.jpg"));
+		pConsultar.add(lblImagen);
+
+		lblImagenAutor = new JLabel(" ");
+		lblImagenAutor.setBounds(776, 382, 388, 336);
+		pConsultar.add(lblImagenAutor);
+		
+		JLabel lblNewLabel = new JLabel("(Sugerencia: buscar Guernica y autor 36, y hacer clic correspondiente a sus filas en la tabla)");
+		lblNewLabel.setBounds(480, 11, 645, 14);
+		pConsultar.add(lblNewLabel);
+
 		JPanel pSalir = new JPanel();
 		contentPane.add(pSalir, "t3");
 		pSalir.setLayout(null);
@@ -490,6 +546,7 @@ public class VentanaPrincipal extends JFrame {
 		txtBuscar.setVisible(false);
 		textNombreArchivo.setVisible(false);
 		btnGenerarXLS.setVisible(false);
+		lblImagen.setVisible(false);
 		cargandoComboAutores();
 	}
 
