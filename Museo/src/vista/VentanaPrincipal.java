@@ -36,6 +36,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
+import javax.swing.JSeparator;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -56,6 +57,8 @@ public class VentanaPrincipal extends JFrame {
 	private JTextField txtFechaObra;
 	private JComboBox cmbAutores;
 	private JTextField txtAutoresObra;
+	private JTextField txtNuevoAutor;
+	private JTextField txtIdAutoresObra;
 
 	/**
 	 * Launch the application.
@@ -135,7 +138,7 @@ public class VentanaPrincipal extends JFrame {
 				Añadir();
 			}
 		});
-		btnAnadir.setBounds(625, 60, 141, 23);
+		btnAnadir.setBounds(616, 170, 150, 23);
 		pAnadir.add(btnAnadir);
 
 		JButton btnLimpiar = new JButton("Limpiar ");
@@ -148,7 +151,7 @@ public class VentanaPrincipal extends JFrame {
 				txtAutoresObra.setText("");
 			}
 		});
-		btnLimpiar.setBounds(625, 94, 141, 23);
+		btnLimpiar.setBounds(0, 359, 141, 23);
 		pAnadir.add(btnLimpiar);
 
 		JLabel lblTituloVentanaAniadir = new JLabel(
@@ -201,10 +204,11 @@ public class VentanaPrincipal extends JFrame {
 				try {
 					con = DriverManager.getConnection("jdbc:mysql://localhost/db_museo","root","");
 					st = con.createStatement();
-					String sql = "SELECT autor FROM autores";
+					String sql = "SELECT * FROM autores";
 					rs = st.executeQuery(sql);
 					while(rs.next()) {
-						cmbAutores.addItem(rs.getString(1));
+						cmbAutores.addItem(rs.getString(1)+"."+rs.getString(2));
+						txtIdAutoresObra.setText(rs.getString("idAutor"));
 						txtAutoresObra.setText(rs.getString("autor"));
 					}
 					
@@ -222,18 +226,42 @@ public class VentanaPrincipal extends JFrame {
 				}
 			}
 		});
-		cmbAutores.setBounds(20, 173, 150, 20);
+		cmbAutores.setBounds(428, 61, 195, 20);
 		pAnadir.add(cmbAutores);
 
 		JLabel lblAutorObra = new JLabel("Autor de la obra");
-		lblAutorObra.setBounds(20, 148, 150, 14);
+		lblAutorObra.setBounds(428, 36, 150, 14);
 		pAnadir.add(lblAutorObra);
 
 		txtAutoresObra = new JTextField();
 		txtAutoresObra.setEnabled(false);
-		txtAutoresObra.setBounds(20, 204, 150, 20);
+		txtAutoresObra.setBounds(489, 117, 134, 20);
 		pAnadir.add(txtAutoresObra);
 		txtAutoresObra.setColumns(10);
+		
+		txtIdAutoresObra = new JTextField();
+		txtIdAutoresObra.setEnabled(false);
+		txtIdAutoresObra.setColumns(10);
+		txtIdAutoresObra.setBounds(428, 117, 55, 20);
+		pAnadir.add(txtIdAutoresObra);
+		
+		JLabel lblNuevoAutor = new JLabel("Nuevo autor/a");
+		lblNuevoAutor.setBounds(20, 192, 79, 14);
+		pAnadir.add(lblNuevoAutor);
+		
+		txtNuevoAutor = new JTextField();
+		txtNuevoAutor.setBounds(20, 217, 150, 20);
+		pAnadir.add(txtNuevoAutor);
+		txtNuevoAutor.setColumns(10);
+		
+		JButton btnNuevoAutor = new JButton("A\u00F1adir nuevo/a autor/a");
+		btnNuevoAutor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AñadirNuevoAutor();
+			}
+		});
+		btnNuevoAutor.setBounds(616, 266, 150, 23);
+		pAnadir.add(btnNuevoAutor);
 
 		JPanel pConsultar = new JPanel();
 		contentPane.add(pConsultar, "t2");
@@ -475,17 +503,41 @@ public class VentanaPrincipal extends JFrame {
 			a.setTitulo(txtTituloObra.getText());
 			a.setLugar(txtLugarObra.getText());
 			a.setTipo(txtTipoObra.getText());
+			a.setIdAutor(au.getIdAutor());
 			au.setNombreAutor(txtAutoresObra.getText());
 			try {
 				Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/db_museo","root","");
 				Statement aniadirObra = conexion.createStatement();
 				
-				aniadirObra.executeUpdate("insert into cervezas(idAutor, titulo, tipo, fecha, lugar) values("
+				aniadirObra.executeUpdate("insert into obras(fecha, titulo, lugar, idAutor,tipo) values("
 						+ a.getFecha() + ",'" 
 						+ a.getTitulo() +"',"
 						+ a.getLugar() + ","
+						+ a.getIdAutor() + ","
 						+ a.getTipo() + "'"
 						+ ")");
+				
+				conexion.close();
+				
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+	}
+	public void AñadirNuevoAutor() {
+		int valor = JOptionPane.showConfirmDialog(null, "Desea insertar este elemento");
+		if(JOptionPane.OK_OPTION == valor) {
+			
+			Autor au = new Autor();
+			
+			
+			au.setNombreAutor(txtNuevoAutor.getText());
+			try {
+				Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/db_museo","root","");
 				
 				Statement aniadirAutor = conexion.createStatement();
 				aniadirAutor.executeUpdate("insert into autores(autor) values("
@@ -499,7 +551,5 @@ public class VentanaPrincipal extends JFrame {
 			}
 			
 		}
-		
-		
 	}
 }
