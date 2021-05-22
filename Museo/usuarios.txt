@@ -1,0 +1,3 @@
+root;palo;Admin
+groot;pala;Admin
+loco;vaca;Visitante
