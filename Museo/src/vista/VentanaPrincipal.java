@@ -533,7 +533,7 @@ public class VentanaPrincipal extends JFrame {
 		if(JOptionPane.OK_OPTION == valor) {
 			
 			Autor au = new Autor();
-			
+			//
 			
 			au.setNombreAutor(txtNuevoAutor.getText());
 			try {
